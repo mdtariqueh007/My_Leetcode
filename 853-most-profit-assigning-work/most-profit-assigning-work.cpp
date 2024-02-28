@@ -12,18 +12,27 @@ public:
 
         sort(v.begin(),v.end());
 
+        for(int i = 1;i<n;i++){
+            v[i].second = max(v[i].second,v[i-1].second);
+        }
+
         int sum = 0;
 
         int m = worker.size();
 
         for(int i = 0;i<m;i++){
             int maxProfit = 0;
-            for(int j = 0;j<v.size();j++){
-                if(v[j].first<=worker[i]){
-                    maxProfit = max(maxProfit,v[j].second);
+            int low = 0;
+            int high = v.size() - 1;
+            while(low<=high){
+                int mid = low + (high - low)/2;
+
+                if(v[mid].first<=worker[i]){
+                    maxProfit = max(maxProfit,v[mid].second);
+                    low = mid + 1;
                 }
                 else{
-                    break;
+                    high = mid - 1;
                 }
             }
             sum += maxProfit;
