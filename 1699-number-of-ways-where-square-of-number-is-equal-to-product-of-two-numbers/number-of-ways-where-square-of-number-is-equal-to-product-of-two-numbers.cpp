@@ -22,17 +22,17 @@ class Solution {
 public:
     int numTriplets(vector<int>& nums1, vector<int>& nums2) {
 
-        int cnt = 0;
+       auto lambda1 = [&](int s,long long n){
+           return s + f(nums2,n*n);
+       };
 
-        for(int i = 0;i<nums1.size();i++){
-            cnt += f(nums2,1LL*nums1[i]*nums1[i]);
-        }
+       auto lambda2 = [&](int s,long long n){
+           return s + f(nums1,n*n);
+       };
 
-        for(int i = 0;i<nums2.size();i++){
-            cnt += f(nums1,1LL*nums2[i]*nums2[i]);
-        }
+       return accumulate(nums1.begin(),nums1.end(),0,lambda1) +
+                accumulate(nums2.begin(),nums2.end(),0,lambda2);
 
-        return cnt;
         
     }
 };
