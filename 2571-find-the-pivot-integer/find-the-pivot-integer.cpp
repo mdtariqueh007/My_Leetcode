@@ -2,14 +2,12 @@ class Solution {
 public:
     int pivotInteger(int n) {
 
-        for(int i = 1;i<=n;i++){
-            int leftSum = (i*(i+1))/2;
+        int sum = (n*(n+1))/2;
 
-            int rightSum = (n*(n+1))/2 - ((i-1)*i)/2;
+        int sq = sqrt(sum);
 
-            if(leftSum==rightSum){
-                return i;
-            }
+        if(sum==sq*sq){
+            return sq;
         }
 
         return -1;
