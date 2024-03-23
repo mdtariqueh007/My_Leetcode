@@ -9,45 +9,52 @@
  * };
  */
 class Solution {
+    private:
+    ListNode* reverseList(ListNode* head) {
+        if(head==NULL || head->next==NULL){
+            return head;
+        }
+
+        ListNode* prev = NULL;
+        ListNode* temp = head;
+
+        while(temp!=NULL){
+            ListNode* front = temp->next;
+            temp->next = prev;
+            prev = temp;
+            temp = front;
+        }
+
+        return prev;
+    }
 public:
     void reorderList(ListNode* head) {
 
-        if(head->next==NULL){
-            return;
+        ListNode* slow = head;
+        ListNode* fast = head;
+
+        while(fast && fast->next){
+            slow = slow->next;
+            fast = fast->next->next;
         }
 
-        unordered_map<ListNode*, ListNode*> mp;
-        unordered_map<ListNode*, int> ind;
+
+        ListNode* rev = reverseList(slow);
 
         ListNode* curr = head;
-        ListNode* front = head->next;
-        ListNode* last = head->next;
-        ListNode* prev = head;
 
-        mp[head ] = NULL;
-        int i = 0;
-        ind[head] = i++;
+        while(rev->next){
+            ListNode* temp = curr->next;
+            curr->next = rev;
+            
+            ListNode* temp2 = rev->next;
+            rev->next = temp;
 
-        while(last->next!=NULL){
-            mp[last] = prev;
-            ind[last] = i++;
-            prev = prev->next;
-            last = last->next;
-
+            curr = temp;
+            rev = temp2;
         }
 
-        mp[last] = prev;
-        ind[last]++;
-
-        while(curr!=NULL && last!=NULL && ind[curr]<ind[last]){
-            curr->next = last;
-            last->next = front;
-            last = mp[last];
-            curr = front;
-            front = curr->next;
-        }
-
-        curr->next = NULL;
+    
         
     }
 };
