@@ -1,11 +1,13 @@
 class Solution {
     private:
+    int cnt = 0;
     void dfs(int node,vector<int> adj[],vector<int>&vis,unordered_set<int>&st){
         if(st.find(node)!=st.end()){
             return;
         }
 
         vis[node] = 1;
+        cnt++;
 
         
         for(auto it : adj[node]){
@@ -36,13 +38,13 @@ public:
 
         dfs(0,adj,vis,dead);
 
-        int cnt = 0;
+        // int cnt = 0;
 
-        for(int i : vis){
-            if(i==1){
-                cnt++;
-            }
-        }
+        // for(int i : vis){
+        //     if(i==1){
+        //         cnt++;
+        //     }
+        // }
 
         return cnt;
 
