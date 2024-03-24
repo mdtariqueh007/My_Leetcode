@@ -1,7 +1,7 @@
 class Solution {
     private:
-    int cnt = 0;
-    void dfs(int node,vector<int> adj[],vector<int>&vis,unordered_set<int>&st){
+    // int cnt = 0;
+    void dfs(int node,vector<int> adj[],vector<int>&vis,unordered_set<int>&st,int&cnt){
         if(st.find(node)!=st.end()){
             return;
         }
@@ -13,7 +13,7 @@ class Solution {
         for(auto it : adj[node]){
             if(!vis[it]){
                 
-                dfs(it,adj,vis,st);
+                dfs(it,adj,vis,st,cnt);
 
             }
         }
@@ -36,7 +36,9 @@ public:
 
         vector<int> vis(n,0);
 
-        dfs(0,adj,vis,dead);
+        int cnt = 0;
+
+        dfs(0,adj,vis,dead,cnt);
 
         // int cnt = 0;
 
