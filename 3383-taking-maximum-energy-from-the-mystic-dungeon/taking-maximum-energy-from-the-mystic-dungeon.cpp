@@ -1,36 +1,23 @@
 class Solution {
-    private:
-    int dp[100001];
-    int f(int i,vector<int>&energy,int k){
-        if(i>=energy.size()){
-            return 0;
-        }
-
-        if(dp[i]!=-1){
-            return dp[i];
-        }
-
-        int ans = energy[i] + f(i+k,energy,k);
-
-        return dp[i] = ans;
-    }
 public:
     int maximumEnergy(vector<int>& energy, int k) {
-
+        
         int n = energy.size();
 
-        memset(dp,-1,sizeof(dp));
+        vector<int> dp(n,0);
 
         int ans = -1e9;
 
-        for(int i = 0;i<n;i++){
-            ans = max(ans,f(i,energy,k));
+        for(int i = n-1;i>=0;i--){
+            dp[i] = energy[i];
+            if(i+k<n){
+                dp[i] += dp[i+k];
+            }
+
+            ans = max(ans,dp[i]);
         }
 
         return ans;
 
-        
-
-        
     }
 };
