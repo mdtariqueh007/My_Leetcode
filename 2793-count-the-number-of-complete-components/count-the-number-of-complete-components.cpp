@@ -1,10 +1,10 @@
 class Solution {
     private:
-    void dfs(int node,vector<int> adj[],vector<int>&vis,int &n,int &m){
+    void dfs(int node,vector<int> adj[],vector<int>&vis,int &n,double &m){
         vis[node] = 1;
 
         n++;
-        m += adj[node].size();
+        m += adj[node].size()/2.0;
 
         for(auto it : adj[node]){
             if(!vis[it]){
@@ -28,10 +28,11 @@ public:
 
         for(int i = 0;i<n;i++){
             if(!vis[i]){
-                int n = 0,m = 0;
+                int n = 0;
+                double m = 0;
                 dfs(i,adj,vis,n,m);
                 // cout<<n<<" "<<m<<"\n";
-                int edges = (n*(n-1));
+                int edges = (n*(n-1))/2;
 
                 if(edges==m){
                     res++;
