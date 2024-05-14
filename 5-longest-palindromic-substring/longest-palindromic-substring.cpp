@@ -5,9 +5,20 @@ class Solution {
 
         vector<int> lps(n,0);
 
+        int c = 0;
+        int r = 0;
+
         for(int i = 1;i<s.length()-1;i++){
+            int mirr = c - (i - c);
+            if(i<r){
+                lps[i] = min(lps[mirr],r-i);
+            }
             while((i+1+lps[i])<n && (i-1-lps[i])>=0 && s[i+1+lps[i]]==s[i-1-lps[i]]){
                 lps[i]++;
+            }
+            if(i+lps[i]>r){
+                c = i;
+                r = i + lps[i];
             }
         }
 
