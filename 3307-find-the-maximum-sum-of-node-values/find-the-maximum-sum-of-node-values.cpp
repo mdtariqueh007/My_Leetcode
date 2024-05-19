@@ -3,39 +3,34 @@ public:
     long long maximumValueSum(vector<int>& nums, int k, vector<vector<int>>& edges) {
         int n = nums.size();
 
-        long long idealSum = 0;
+        long long sum = 0;
 
-        long long minLoss = 1e9;
+        vector<long long> profit;
 
-        int count = 0;
+        for(long long num : nums){
+            sum += num;
 
-        for(int i = 0;i<n;i++){
-            if((nums[i]^k)>nums[i]){
-                idealSum += (nums[i]^k);
-                count++;
-            }else{
-                idealSum += nums[i];
-            }
-
-            minLoss = min(minLoss,abs(nums[i]*1LL-(nums[i]^(k*1LL))));
-        }  
-
-        long long ans = idealSum;
-
-        if(count%2){
-            ans = ans - minLoss;
+            profit.push_back((num^k) - num);
         }
 
-        long long initialSum = 0;
+        int end = profit.size();
 
-        // for(int i: nums){
-        //     initialSum += i;
-        // }
+        sort(profit.rbegin(),profit.rend());
 
-        // if(initialSum>ans){
-        //     return initialSum;
-        // }
+        for(int i = 0;i<end-1;i = i + 2){
+            
+            
+            long long gain = profit[i]+profit[i+1];
+                
+            
 
-        return ans;
+            if(gain>0){
+                sum += gain;
+            }
+        }
+
+        return sum;
+
+
     }
 };
