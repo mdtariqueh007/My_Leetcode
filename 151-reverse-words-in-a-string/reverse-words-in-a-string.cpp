@@ -7,14 +7,14 @@ public:
         string temp;
 
         
-        string ans = "";        
+        s = "";        
 
         while(ss>>temp){
             temp += " ";
-            ans = temp + ans;
+            s = temp + s;
             
         }
 
-        return ans.substr(0,ans.size()-1);        
+        return s.substr(0,s.size()-1);        
     }
 };
