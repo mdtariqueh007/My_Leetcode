@@ -22,16 +22,18 @@ class Solution {
             return n;
         }
 
-        int[] dp = new int[n+1];
-        Arrays.fill(dp,0);
+        // int[] dp = new int[n+1];
+        // Arrays.fill(dp,0);
 
-        dp[n-1] = 1;
-        dp[n-2] = 2;
+        int prev2 = 1;
+        int prev = 2;
 
         for(int i = n-3;i>=0;i--){
-            dp[i] = dp[i+1] + dp[i+2];
+            int curr = prev + prev2;
+            prev2 = prev;
+            prev = curr;
         }
 
-        return dp[0];
+        return prev;
     }
 }
