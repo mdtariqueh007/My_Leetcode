@@ -37,6 +37,7 @@ public:
                 else if(state==3 || state==0){
                     state += 2;
                 }
+               
             }
             else if(s[i]=='e' || s[i]=='E'){
                 if(state==2  || state==7 || state==8){
