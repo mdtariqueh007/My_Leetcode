@@ -2,21 +2,32 @@ class Solution {
 public:
     vector<int> singleNumber(vector<int>& nums) {
 
-        unordered_map<int,int> mp;
-        for(int i = 0;i<nums.size();i++){
-            mp[nums[i]]++;
+        int n = nums.size();
+
+        vector<int> res;
+
+        long long int xr = 0;
+
+        for(int i = 0;i<n;i++){
+            xr = xr^nums[i];
         }
-        vector<int> ans;
-        for(auto it : mp){
-            if(it.second==1){
-                ans.push_back(it.first);
-            }
-            if(ans.size()==2){
-                break;
+
+        int mask = xr&(-xr);
+
+        int bucket1 = 0, bucket2 = 0;
+
+        for(int i = 0;i<n;i++){
+            if(mask & nums[i]){
+                bucket1 = bucket1^nums[i];
+            }else{
+                bucket2 = bucket2^nums[i];
             }
         }
 
-        return ans;
+        res.push_back(bucket1);
+        res.push_back(bucket2);
+
+        return res;
         
     }
 };
