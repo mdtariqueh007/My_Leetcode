@@ -18,7 +18,7 @@ public:
 
             int target = nums[right];
 
-            while((right - left + 1) * target - curr  > k){
+            if((right - left + 1) * target - curr  > k){
                 curr -= nums[left];
                 left++;
             }
@@ -28,6 +28,6 @@ public:
 
         #undef int
 
-        return res;
+        return n - left;
     }
 };
