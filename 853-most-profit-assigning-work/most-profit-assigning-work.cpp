@@ -4,30 +4,29 @@ public:
         int n = difficulty.size();
         int m = worker.size();
 
-        priority_queue<pair<int,int>> pq;
+        int total = 0;
+
+        vector<pair<int,int>> temp;
 
         for(int i = 0;i<n;i++){
-            pq.push({profit[i],difficulty[i]});
+            temp.push_back({difficulty[i],profit[i]});
         }
 
-        sort(worker.rbegin(),worker.rend());
+        sort(temp.begin(),temp.end());
+        sort(worker.begin(),worker.end());
 
         int maxProfit = 0;
-
+        int j = 0;
         for(int i = 0;i<m;i++){
-            
 
-            while(!pq.empty() && pq.top().second>worker[i]){
-                pq.pop();
+            while(j<n && worker[i]>=temp[j].first){
+                maxProfit = max(maxProfit,temp[j].second);
+                j++;
             }
 
-            if(!pq.empty()){
-                maxProfit += pq.top().first;
-            }
+            total += maxProfit;
         }
 
-        return maxProfit;
-
-
+        return total;
     }
 };
