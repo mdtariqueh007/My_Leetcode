@@ -20,12 +20,12 @@ public:
 
         while(n>=d){
             int cnt = 0;
-            while(n>=(d<<(cnt+1))){
+            while(n>=(d<<cnt<<1)){
                 cnt++;
             }
 
             ans += (1<<cnt);
-            n = n - (d*(1<<cnt));
+            n = n - (d<<cnt);
         }
 
         return sign?ans:-1*ans;
