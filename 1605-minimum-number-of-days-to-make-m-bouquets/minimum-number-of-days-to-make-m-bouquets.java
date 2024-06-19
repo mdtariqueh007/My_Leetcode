@@ -20,6 +20,10 @@ class Solution {
     public int minDays(int[] bloomDay, int m, int k) {
         int n = bloomDay.length;
 
+        if(m*k>n){
+            return -1;
+        }
+
         int maxi = bloomDay[0];
         int mini = bloomDay[0];
 
