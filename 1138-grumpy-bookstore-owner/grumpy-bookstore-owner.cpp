@@ -1,39 +1,32 @@
 class Solution {
 public:
     int maxSatisfied(vector<int>& customers, vector<int>& grumpy, int minutes) {
+        int n = customers.size();
 
-        int cnt = 0;
-        int n = grumpy.size();
-
-        int res = 0;
-
-        for(int i = 0;i<n;i++){
-            if(!grumpy[i]){
-                res += customers[i];
-                customers[i] = 0;
-            }
-        }
-
-        int currSum = 0;
+        int currSatisfied = 0;
 
         for(int i = 0;i<minutes;i++){
-            currSum += customers[i];
+            currSatisfied += customers[i] * grumpy[i];
         }
 
-        int maxSum = currSum;
+        int maxSatisfied = currSatisfied;
 
-        for(int i = minutes;i<n;i++){
-            currSum += customers[i];
-            currSum -= customers[i-minutes];
+        int i = 0;
+        int j = minutes;
 
-            maxSum = max(maxSum,currSum);
+        while(j<n){
+            currSatisfied += customers[j] * grumpy[j];
+            currSatisfied -= customers[i] * grumpy[i];
+
+            maxSatisfied = max(maxSatisfied,currSatisfied);
+            i++;
+            j++;
         }
 
-        res += maxSum;
+        for(int i = 0;i<n;i++){
+            maxSatisfied += customers[i] * (1 - grumpy[i]);
+        }
 
-        return res;
-
-        
-        
+        return maxSatisfied;
     }
 };
