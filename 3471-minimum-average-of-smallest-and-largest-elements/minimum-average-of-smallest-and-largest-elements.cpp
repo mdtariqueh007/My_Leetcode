@@ -10,19 +10,21 @@ public:
 
         sort(nums.begin(),nums.end());
 
-        vector<double> averages;
+        // vector<double> averages;
+
+        double ans = 1e9;
 
         for(int i = 0;i<nums.size()/2;i++){
             int mini = nums[i];
             int maxi = nums[nums.size()- i - 1];
 
-            averages.push_back((mini*1.0  + maxi * 1.0)/2.0);
+            ans= min(ans,((mini*1.0  + maxi * 1.0)/2.0));
             
         }
 
-        sort(averages.begin(),averages.end());
+        // sort(averages.begin(),averages.end());
 
-        return averages[0];
+        return ans;
         
         
     }
