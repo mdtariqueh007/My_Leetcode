@@ -1,24 +1,15 @@
 class Solution {
 public:
     int findCenter(vector<vector<int>>& edges) {
+        vector<int> edge1 = edges[0];
+        vector<int> edge2 = edges[1];
 
-        int n = edges.size() + 1;
-
-        vector<int> degree(n+1,0);
-
-        for(auto it  :edges){
-            degree[it[0]]++;
-            degree[it[1]]++;
+        if(edge1[0]==edge2[0] || edge1[0]==edge2[1]){
+            return edge1[0];
         }
-
-        for(int i = 1;i<=n;i++)
-        {
-            if(degree[i]>1){
-                return i;
-            }
+        else{
+            return edge1[1];
         }
-
-        return -1;
-
+        
     }
 };
