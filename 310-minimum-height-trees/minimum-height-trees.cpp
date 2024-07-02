@@ -1,54 +1,53 @@
-
 class Solution {
 public:
     vector<int> findMinHeightTrees(int n, vector<vector<int>>& edges) {
-        if(edges.size() == 0) {
-            vector<int> tmp;
-            tmp.push_back(0);
-            return tmp;
+        if(n==1){
+            return {0};
         }
-        unordered_map<int, list<int>> adj;
+        vector<int> adj[n];
 
-        // creating adjacency list
-        for (int i = 0; i < edges.size(); i++) {
-            int u = edges[i][0];
-            int v = edges[i][1];
-            adj[u].push_back(v);
-            adj[v].push_back(u);
+        vector<int> degree(n,0);
+
+        for(auto it : edges){
+            adj[it[0]].push_back(it[1]);
+            adj[it[1]].push_back(it[0]);
+
+            degree[it[0]]++;
+            degree[it[1]]++;
         }
 
-        vector<int> leaves; // Stores current leaf nodes
+        queue<int> q;
 
-        // Initialize leaves with nodes having only 1 adjacent node
-        for(auto& d : adj) {
-            if(d.second.size() == 1) {
-                leaves.push_back(d.first);
+        for(int i = 0;i<n;i++){
+            if(degree[i]==1){
+                q.push(i);
             }
         }
 
-        // answer can consist of max. 2 nodes (Reason explained above)
-        while(n > 2) {
-            vector<int> new_leaves;
+        while(n>2){
+            int sz = q.size();
 
-            // remove current leaves
-            n -= leaves.size(); 
+            while(sz--){
+                int node = q.front();
+                q.pop();
+                n--;
 
-            for(int leaf : leaves) {
-                // get the only neighbour of leaf
-                int neighbor = adj[leaf].front(); 
-                // remove leaf from neighbour's adjacency list
-                adj[neighbor].remove(leaf); 
-                
-                // if the adjacent node becomes a leaf node after removal, add it to the queue.
-                if(adj[neighbor].size() == 1) {
-                    new_leaves.push_back(neighbor); 
+                for(int it  :adj[node]){
+                    degree[it]--;
+                    if(degree[it]==1){
+                        q.push(it);
+                    }
                 }
             }
-            
-            // update current no of leaf nodes
-            leaves = new_leaves; 
         }
 
-        return leaves;
+        vector<int> ans;
+
+        while(!q.empty()){
+            ans.push_back(q.front());
+            q.pop();
+        }
+
+        return ans;
     }
 };
