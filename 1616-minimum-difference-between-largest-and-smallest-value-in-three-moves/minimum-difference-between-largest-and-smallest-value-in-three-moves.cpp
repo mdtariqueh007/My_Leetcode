@@ -5,7 +5,11 @@ public:
         int n = nums.size();
         if(n<=4) return 0;
 
-        sort(nums.begin(),nums.end());
+        partial_sort(nums.begin(),nums.begin() + 4,nums.end());
+
+        nth_element(nums.begin() + 4,nums.begin() + n - 4 , nums.end());
+
+        sort(nums.begin() + n - 4 ,nums.end());
 
         int ans = nums[n-1] - nums[3];
         ans = min(ans,nums[n-4] - nums[0]);
