@@ -13,17 +13,21 @@ public:
         }
 
         for(int sc = 0;sc<n;sc++){
-            for(int ec = sc;ec<n;ec++){
-                for(int sr = 0;sr<m;sr++){
-                    int sum = 0;
+            for(int j = sc;j<n;j++){
+                unordered_map<int,int> mp;
 
-                    for(int er = sr;er<m;er++){
-                        sum += matrix[er][ec] - (sc>0?matrix[er][sc-1]:0);
+                mp.insert({0,1});
 
-                        if(sum==target){
-                            ans++;
-                        }
+                int sum = 0;
+
+                for(int row = 0;row<m;row++){
+                    sum += matrix[row][j] - (sc>0?matrix[row][sc-1]:0);
+
+                    if(mp.find(sum-target)!=mp.end()){
+                        ans += mp[sum-target];
                     }
+
+                    mp[sum]++;
                 }
             }
         }
