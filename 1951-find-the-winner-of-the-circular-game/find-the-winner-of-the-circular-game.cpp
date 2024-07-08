@@ -1,20 +1,12 @@
 class Solution {
-    private:
-    int findWinnerInd(int n,int k){
-        if(n==1){
-            return 0; 
-        }
-
-        int ind = findWinnerInd(n-1,k);
-        ind = (ind + k)%n;
-
-        return ind;
-    }
 public:
     int findTheWinner(int n, int k) {
-        
-        int res = findWinnerInd(n,k);
+        int ans = 0;
 
-        return res + 1;
+        for(int i = 2;i<=n;i++){
+            ans = (ans + k)%i;
+        }   
+
+        return ans + 1;
     }
 };
