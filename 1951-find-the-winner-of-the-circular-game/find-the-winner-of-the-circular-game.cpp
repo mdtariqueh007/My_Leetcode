@@ -1,24 +1,20 @@
 class Solution {
+    private:
+    int findWinnerInd(int n,int k){
+        if(n==1){
+            return 0; 
+        }
+
+        int ind = findWinnerInd(n-1,k);
+        ind = (ind + k)%n;
+
+        return ind;
+    }
 public:
     int findTheWinner(int n, int k) {
-
-        vector<int> arr;
-
-        for(int i = 1;i<=n;i++){
-            arr.push_back(i);
-        }
-
-        int i = 0;
-
-        while(arr.size() > 1){
-            int ind = (i + k -1)%arr.size();
-
-            arr.erase(arr.begin() + ind);
-
-            i = ind;
-        }
-
-        return arr[0];
         
+        int res = findWinnerInd(n,k);
+
+        return res + 1;
     }
 };
