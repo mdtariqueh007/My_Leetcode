@@ -1,16 +1,24 @@
 class Solution {
 public:
-
-    int myWin(int n,int k){
-        if(n==1) return 0;
-        else{
-            return (myWin(n-1,k)+k)%n;
-        }
-    }
-
     int findTheWinner(int n, int k) {
-        
-        return myWin(n,k)+1;
 
+        vector<int> arr;
+
+        for(int i = 1;i<=n;i++){
+            arr.push_back(i);
+        }
+
+        int i = 0;
+
+        while(arr.size() > 1){
+            int ind = (i + k -1)%arr.size();
+
+            arr.erase(arr.begin() + ind);
+
+            i = ind;
+        }
+
+        return arr[0];
+        
     }
 };
