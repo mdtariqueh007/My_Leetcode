@@ -5,22 +5,13 @@ public:
         int cnt = 0;
 
         for(string s : logs){
-            string t = s;
-            reverse(t.begin(),t.end());
 
-            t = t.substr(1);
-
-            cout<<t<<"\n";
-
-            if(t==".."){
+            if(s=="../"){
                 if(cnt>0){
-                    cnt--;  
+                    cnt--;
                 }
             }
-            else if(t=="."){
-                cnt = cnt;
-            }
-            else{
+            else if(s!="./"){
                 cnt++;
             }
         }
