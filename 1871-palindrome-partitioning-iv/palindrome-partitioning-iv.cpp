@@ -1,29 +1,37 @@
 class Solution {
     private:
+    
+
+    int dp[2001][3], check[2001][2001];
     bool isPalindrome(int i,int j,string&s){
+        if(check[i][j]!=-1){
+            return check[i][j];
+        }
+
+        int l = i, r = j;
         while(i<=j){
             if(s[i]!=s[j]){
-                return false;
+                return check[l][r] = false;
             }
             i++;
             j--;
         }
 
-        return true;
+        return check[l][r] = true;
     }
-
-    int dp[2001][3];
     bool solve(int ind,string &s,int partitions){
         if(ind>=s.length()){
             return partitions==0;
         }
 
-        if(dp[ind][partitions]!=-1){
-            return dp[ind][partitions];
-        }
+        
 
         if(partitions==0){
             return isPalindrome(ind,s.size()-1,s);
+        }
+
+        if(dp[ind][partitions]!=-1){
+            return dp[ind][partitions];
         }
 
         bool flag = false;
@@ -41,6 +49,7 @@ class Solution {
     }
 public:
     bool checkPartitioning(string s) {
+        memset(check,-1,sizeof(check));
         memset(dp,-1,sizeof(dp));
         return solve(0,s,2);
     }
