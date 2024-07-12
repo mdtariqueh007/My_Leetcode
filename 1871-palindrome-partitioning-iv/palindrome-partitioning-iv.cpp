@@ -11,9 +11,15 @@ class Solution {
 
         return true;
     }
+
+    int dp[2001][3];
     bool solve(int ind,string &s,int partitions){
         if(ind>=s.length()){
             return partitions==0;
+        }
+
+        if(dp[ind][partitions]!=-1){
+            return dp[ind][partitions];
         }
 
         if(partitions==0){
@@ -29,12 +35,13 @@ class Solution {
             }
         }
 
-        return flag;
+        return dp[ind][partitions] = flag;
 
 
     }
 public:
     bool checkPartitioning(string s) {
+        memset(dp,-1,sizeof(dp));
         return solve(0,s,2);
     }
 };
