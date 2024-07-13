@@ -1,21 +1,21 @@
 class Solution {
     private:
-    bool checkCycle(int node,vector<int> adj[],vector<int>&vis,vector<int>&dfsVis){
-        vis[node] = 1;
-        dfsVis[node] = 1;
+    bool checkCycle(int node,vector<int> adj[],vector<int>&vis){
+        vis[node] = 2;
+        // dfsVis[node] = 1;
 
         for(auto it : adj[node]){
-            if(!vis[it]){
-                if(checkCycle(it,adj,vis,dfsVis)){
+            if(vis[it]==0){
+                if(checkCycle(it,adj,vis)){
                     return true;
                 }
             }
-            else if(dfsVis[it]){
+            else if(vis[it]==2){
                 return true;
             }
         }
 
-        dfsVis[node] = 0;
+        vis[node] = 1;
         return false;
     }
 public:
@@ -29,11 +29,11 @@ public:
         }
 
         vector<int> vis(n,0);
-        vector<int> dfsVis(n,0);
+
 
         for(int i = 0;i<n;i++){
-            if(!vis[i]){
-                if(checkCycle(i,adj,vis,dfsVis)){
+            if(vis[i]==0){
+                if(checkCycle(i,adj,vis)){
                     return false;
                 }
             }
