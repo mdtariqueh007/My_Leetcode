@@ -1,43 +1,71 @@
 class NumArray {
 public:
-    vector<int> bit;
-    vector<int> arr;
-    NumArray(vector<int>& nums) {
+    int n;
+    vector<int> segTree;
 
-        int n = nums.size();
-        bit = vector<int>(n+1,0);
-        arr = nums;
-        for(int i = 0;i<n;i++){
-            updateTree(i,arr[i]);
+    void buildSegTree(int i,int l,int r,vector<int>&nums){
+        if(l==r){
+            segTree[i] = nums[l];
+            return;
         }
+
+        int mid = l + (r-l)/2;
+
+        buildSegTree(2*i+1,l,mid,nums);
+        buildSegTree(2*i+2,mid+1,r,nums);
+
+        segTree[i] = segTree[2*i+1] + segTree[2*i+2];
+    }
+
+    void updateSegTree(int ind,int val,int i,int l,int r){
+        if(l==r){
+            segTree[i] = val;
+            return;
+        }
+
+        int mid = l + (r-l)/2;
+
+        if(ind<=mid){
+            updateSegTree(ind,val,2*i+1,l,mid);
+        }
+        else{
+            updateSegTree(ind,val,2*i+2,mid+1,r);
+        }
+
+        segTree[i] = segTree[2*i+1] + segTree[2*i+2];
+    }
+
+    int query(int start,int end,int i,int l,int r){
+        if(l>end || r<start){
+            return 0;
+        }
+
+        if(l>=start && r<=end){
+            return segTree[i];
+        }
+
+        int mid = l + (r-l)/2;
+
+        return query(start,end,2*i+1,l,mid) + query(start,end,2*i+2,mid+1,r);
+    }
+
+    NumArray(vector<int>& nums) {
+        n = nums.size();
+        segTree.resize(4*n);
+
+        buildSegTree(0,0,n-1,nums);
+    }
+    
+    void update(int index, int val) {
+
+        updateSegTree(index,val,0,0,n-1);
         
     }
     
-    void updateTree(int i, int val) {
-        i = i + 1;
-        for(;i<=arr.size();i += (i&(-i))){
-            bit[i] += val;
-        }
-    }
-
-    int getSum(int i){
-        int sum = 0;
-        i = i + 1;
-        for(;i>0;i -= (i&(-i))){
-            sum += bit[i];
-        }
-
-        return sum;
-    }
-
-    void update(int index,int val){
-        int diff = val - arr[index];
-        arr[index] = val;
-        updateTree(index,diff);
-    }
-    
     int sumRange(int left, int right) {
-        return getSum(right) - getSum(left-1);
+
+        return query(left,right,0,0,n-1);
+        
     }
 };
 
