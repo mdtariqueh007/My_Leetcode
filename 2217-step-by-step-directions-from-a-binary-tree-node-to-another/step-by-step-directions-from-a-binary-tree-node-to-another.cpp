@@ -52,18 +52,26 @@ class Solution {
     }
 public:
     string getDirections(TreeNode* root, int startValue, int destValue) {
-        TreeNode* LCA = lowestCommonAncestor(root,startValue,destValue);
+       string rootToStart = "";
+       string rootToEnd = "";
 
-        string LCAtoStart = "";
-        string LCAtoEnd = "";
+       findPath(root,startValue,rootToStart);
+       findPath(root,destValue,rootToEnd);
 
-        findPath(LCA,startValue,LCAtoStart);
-        findPath(LCA,destValue,LCAtoEnd);
+       int i = 0;
+       int j = 0;
+       while(rootToStart[i]==rootToEnd[j]){
+        i++;
+        j++;
+       }
 
-        for(int i = 0;i<LCAtoStart.size();i++){
-            LCAtoStart[i] = 'U';
-        }
+       int ind = i;
 
-        return LCAtoStart + LCAtoEnd;
+       while(ind<rootToStart.size()){
+        rootToStart[ind] = 'U';
+        ind++;
+       }
+
+       return rootToStart.substr(i) + rootToEnd.substr(j);
     }
 };
