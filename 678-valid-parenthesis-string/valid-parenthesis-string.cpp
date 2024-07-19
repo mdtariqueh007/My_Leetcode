@@ -1,32 +1,44 @@
 class Solution {
     private:
     int dp[101][101];
-    bool f(int i,string&s,int bal){
-        if(i>=s.size()){
-            return bal==0;
+    bool solve(int ind,string&s,int cnt){
+        if(cnt<0){
+            return false;
         }
 
-        if(bal<0) return false;
+        if(ind==s.length()){
+            return cnt==0;
+        }
 
-        if(dp[i][bal]!=-1) return dp[i][bal];
+        if(dp[ind][cnt]!=-1){
+            return dp[ind][cnt];
+        }
 
         bool ans = false;
 
-        if(s[i]=='*'){
-            ans = ans | f(i+1,s,bal+1);
-            if(bal) ans = ans | f(i+1,s,bal-1);
-            ans = ans | f(i+1,s,bal);
+        if(s[ind]=='('){
+            ans = solve(ind+1,s,cnt+1);
+        }
+        else if(s[ind]==')'){
+            ans = solve(ind+1,s,cnt-1);
         }
         else{
-            if(s[i]=='(') ans = ans | f(i+1,s,bal+1);
-            else ans = ans | f(i+1,s,bal-1);
+            ans = solve(ind+1,s,cnt+1);
+            if(!ans){
+                ans = solve(ind+1,s,cnt-1);
+            }
+            if(!ans){
+                ans = solve(ind+1,s,cnt);
+            }
         }
 
-        return dp[i][bal] = ans;
+        return dp[ind][cnt] = ans;
+        
     }
 public:
     bool checkValidString(string s) {
         memset(dp,-1,sizeof(dp));
-        return f(0,s,0);
+        
+        return solve(0,s,0);
     }
 };
