@@ -1,19 +1,33 @@
 class Solution {
     private:
     int largestArea(vector<int>&histo){
-        stack<int> st;
         int n = histo.size();
+        stack<int> st;
         int maxArea = 0;
-        for(int i = 0;i<=n;i++){
-            while(!st.empty() && (i==n || histo[st.top()]>=histo[i])){
-                int height = histo[st.top()];
+
+        for(int i = 0;i<n;i++){
+            while(!st.empty() && histo[st.top()]>=histo[i]){
+                int ele = st.top();
                 st.pop();
-                int width;
-                if(st.empty()) width = i;
-                else width = i-st.top()-1;
-                maxArea = max(maxArea,height*width);
+                int nse = i;
+                int pse = st.empty()?-1:st.top();
+
+                int area = histo[ele]* (nse - pse - 1);
+
+                maxArea = max(maxArea,area);
             }
             st.push(i);
+        }
+
+        while(!st.empty()){
+            int ele = st.top();
+            st.pop();
+            int nse = n;
+            int pse = st.empty()?-1:st.top();
+
+            int area = histo[ele]* (nse - pse - 1);
+
+            maxArea = max(maxArea,area);
         }
 
         return maxArea;
