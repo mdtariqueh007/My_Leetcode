@@ -1,59 +1,33 @@
 class Solution {
-    private:
-    vector<long long> helper(int src,vector<pair<int,int>> adj[]){
+public:
+    long long minimumCost(string source, string target, vector<char>& original, vector<char>& changed, vector<int>& cost) {
+        
 
-        priority_queue<pair<long long,int>,vector<pair<long long,int>>,greater<pair<long long,int>>> pq;
+        vector<vector<long long>> dist(26,vector<long long>(26,INT_MAX));
 
-        vector<long long> dist(26,1e9);
+        for(int i = 0;i<original.size();i++){
+            int src = original[i]-'a';
+            int dest = changed[i]-'a';
+            long long wt = cost[i]*1LL;
 
-        pq.push({0,src});
+            dist[src][dest] = min(dist[src][dest],wt);
+        }
 
-        while(!pq.empty()){
-            int node = pq.top().second;
-            int d = pq.top().first;
-
-            pq.pop();
-
-            for(auto it :  adj[node]){
-                int adjNode = it.first;
-                int w = it.second;
-
-                if(dist[adjNode]>d + w){
-                    dist[adjNode] = d + w;
-                    pq.push({dist[adjNode],adjNode});
+        for(int k = 0;k<26;k++){
+            for(int i = 0;i<26;i++){
+                for(int j = 0;j<26;j++){
+                    dist[i][j] = min(dist[i][j],dist[i][k]+dist[k][j]);
                 }
             }
         }
 
-
-        return dist;
-
-
-
-    }
-public:
-    long long minimumCost(string source, string target, vector<char>& original, vector<char>& changed, vector<int>& cost) {
-        int n = original.size();
-
-        vector<pair<int,int>> adj[26];
-
-        for(int i = 0;i<n;i++){
-            adj[original[i]-'a'].push_back({changed[i]-'a',cost[i]});
-        }
-
-        vector<vector<long long>> dist(26,vector<long long>(26));
-
-        for(int i = 0;i<26;i++){
-            dist[i] = helper(i,adj);
-        }
-
         long long ans = 0;
 
-        for(int i = 0;i<source.length();i++){
+        for(int i = 0;i<source.size();i++){
             if(source[i]!=target[i]){
-                int cnt = dist[source[i]-'a'][target[i]-'a'];
+                long long cnt = dist[source[i]-'a'][target[i]-'a'];
 
-                if(cnt==1e9){
+                if(cnt>=INT_MAX){
                     return -1;
                 }
 
@@ -62,6 +36,9 @@ public:
         }
 
         return ans;
+
+
+
 
 
 
