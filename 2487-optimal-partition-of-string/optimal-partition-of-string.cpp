@@ -2,24 +2,24 @@ class Solution {
 public:
     int partitionString(string s) {
 
-        int n = s.length();
-
-        vector<int> lastPos(26,-1);
 
         int ans = 0;
+        int n = s.length();
 
-        int last = -1;
+        int flag = 0;
 
         for(int i = 0;i<n;i++){
-            if(lastPos[s[i]-'a']>=last){
+            int val = s[i] - 'a';
+            if((flag&(1<<val))){
+                flag = 0;
                 ans++;
-                last = i;
             }
 
-            lastPos[s[i]-'a'] = i;
+            flag = flag | (1<<val);
         }
 
-        return ans;
-        
+        return ans+1;
+
+
     }
 };
