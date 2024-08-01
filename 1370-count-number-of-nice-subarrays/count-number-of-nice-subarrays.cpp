@@ -1,14 +1,15 @@
 class Solution {
-    private:
-    int atMost(vector<int>&nums,int k){
+public:
+    int numberOfSubarrays(vector<int>& nums, int k) {
         int n = nums.size();
+
+        int cnt = 0;
 
         int i = 0;
         int j = 0;
-        
-        int ans = 0;
+        int ind = 0;
 
-        int cnt = 0;
+        int ans = 0;
 
         while(j<n){
             if(nums[j]%2){
@@ -20,21 +21,21 @@ class Solution {
                     cnt--;
                 }
                 i++;
+                ind = i;
             }
 
-            ans += (j - i + 1);
+            while(i<j && nums[i]%2==0){
+                
+                i++;
+            }
+
+            if(cnt==k){
+                ans += (i - ind) + 1;
+            }
 
             j++;
-
         }
 
         return ans;
-    }
-public:
-    int numberOfSubarrays(vector<int>& nums, int k) {
-
-        return atMost(nums,k) - atMost(nums,k-1);
-
-        
     }
 };
