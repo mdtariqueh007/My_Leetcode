@@ -11,64 +11,36 @@
  */
 class Solution {
     private:
-    void makeGraph(TreeNode* root, int parent, unordered_map<int,unordered_set<int>>&adj){
+    int result = -1e9;
+    int helper(TreeNode* root, int start){
         if(root==NULL){
-            return;
-        }
-        if(parent!=-1){
-            adj[root->val].insert(parent);
+            return 0;
         }
 
-        if(root->left){
-            adj[root->val].insert(root->left->val);
+        int lh = helper(root->left,start);
+        int rh = helper(root->right,start);
+
+        if(root->val==start){
+            result = max(lh,rh);
+            return -1;
         }
-        if(root->right){
-            adj[root->val].insert(root->right->val);
+        else if(lh>=0 && rh>=0){
+            return max(lh,rh) + 1;
+        }
+        else{
+            int d = abs(lh) + abs(rh);
+
+            result = max(result,d);
+
+            return min(lh,rh) - 1;
         }
 
-        makeGraph(root->left,root->val,adj);
-        makeGraph(root->right,root->val,adj);
+        return 0;
     }
 public:
     int amountOfTime(TreeNode* root, int start) {
+        helper(root,start);
 
-        unordered_map<int,unordered_set<int>> adj;
-
-        makeGraph(root, -1, adj);
-
-        queue<int> q;
-
-        unordered_set<int> visited;
-
-        q.push(start);
-
-        visited.insert(start);
-
-        int time = 0;
-
-        while(!q.empty()){
-            int sz = q.size();
-
-            while(sz--){
-                int node = q.front();
-                q.pop();
-
-                for(int it : adj[node]){
-                    if(visited.find(it)==visited.end()){
-                        q.push(it);
-                        visited.insert(it);
-                    }
-                }
-            }
-
-            time++;
-        }
-
-        return time - 1;
-
-
-
-
-        
+        return result;
     }
 };
