@@ -1,8 +1,8 @@
 class Solution {
     private:
     long long dp[(int)1e5+1];
-    int getNextPassenger(vector<vector<int>>&rides,int val){
-        int low = 0;
+    int getNextPassenger(vector<vector<int>>&rides,int val,int ind){
+        int low = ind;
         int high = rides.size() - 1;
 
         int ans = rides.size();
@@ -30,7 +30,7 @@ class Solution {
             return dp[ind];
         }
 
-        int i = getNextPassenger(rides,rides[ind][1]);
+        int i = getNextPassenger(rides,rides[ind][1],ind);
 
         long long pick = (rides[ind][1] - rides[ind][0] + rides[ind][2]) + solve(i,rides);
         long long notPick = solve(ind+1,rides);
