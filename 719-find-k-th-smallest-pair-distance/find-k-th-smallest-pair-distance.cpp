@@ -1,29 +1,47 @@
 class Solution {
+    private:
+    int check(vector<int>&nums,int mid){
+        int i = 0;
+        int j = 1;
+
+        int pairCount = 0;
+
+        while(j<nums.size()){
+            while(nums[j]-nums[i]>mid){
+                i++;
+            }
+
+            pairCount += (j - i);
+            j++;
+        }
+
+        return pairCount;
+    }
 public:
     int smallestDistancePair(vector<int>& nums, int k) {
 
         int n = nums.size();
 
-        int maxi = *max_element(nums.begin(),nums.end());
+        sort(nums.begin(),nums.end());
 
-        vector<int> count(maxi+1,0);
+        int low = 0;
+        int high = nums[n - 1] - nums[0];
 
-        for(int i = 0;i<n;i++){
-            for(int j = i + 1;j<n;j++){
-                int diff = abs(nums[i] - nums[j]);
+        int ans = high;
 
-                count[diff]++;
+        while(low<=high){
+            int mid = low + (high - low)/2;
+
+            if(check(nums,mid)<k){
+                low = mid + 1;
+            }
+            else{
+                ans = mid;
+                high = mid - 1;
             }
         }
 
-        for(int i = 0;i<=maxi;i++){
-            k -= count[i];
-            if(k<=0){
-                return i;
-            }
-        }
-
-        return -1;
+        return ans;
         
     }
 };
