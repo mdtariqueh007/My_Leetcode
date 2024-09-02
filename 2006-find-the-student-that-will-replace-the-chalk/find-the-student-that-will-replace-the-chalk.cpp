@@ -2,30 +2,36 @@ class Solution {
 public:
     int chalkReplacer(vector<int>& chalk, int k) {
 
-        long long sum = 0;
+        int n = chalk.size();
 
-        for(int i = 0;i<chalk.size();i++){
-            sum += chalk[i];
+        vector<long long> prefix(n,0);
 
-            if(sum>k){
-                return i;
-            }
+        prefix[0] = chalk[0];
 
+        for(int i = 1;i<chalk.size();i++){
+            prefix[i] = prefix[i-1] + chalk[i];
         }
 
-        k = k%sum;
+        k = k%prefix.back();
 
-        for(int i = 0;i<chalk.size();i++){
-           
+        int low = 0;
+        int high = n - 1;
 
-            k = k - chalk[i];
+        int ans = n;
 
-            if(k<0){
-                return i;
+        while(low<=high){
+            int mid = low + (high - low)/2;
+
+            if(prefix[mid]<=k){
+                low = mid + 1;
+            }
+            else{
+                ans = mid;
+                high = mid - 1;
             }
         }
 
-        return -1;
+        return ans;
         
     }
 };
