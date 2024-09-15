@@ -4,42 +4,36 @@ public:
 
         int ans = 0;
 
-        unordered_map<string,int> mp;
+        unordered_map<int,int> mp;
 
-        string initialState = "00000";
-        vector<int> state(5,0);
+        int mask = 0;
 
-        mp[initialState] = -1;
+        mp[mask] = -1;
 
         for(int i = 0;i<s.length();i++){
             char c = s[i];
             if(c=='a'){
-                state[0] ^= 1;
+                mask = (mask ^ (1<<0));
             }
             else if(c=='e'){
-                state[1] ^= 1;
+                mask = (mask ^ (1<<1));
             }
             else if(c=='i'){
-                state[2] ^= 1;
+                mask = (mask ^ (1<<2));
             }
             else if(c=='o'){
-                state[3] ^= 1;
+                mask = (mask ^ (1<<3));
             }
             else if(c=='u'){
-                state[4] ^= 1;
+                mask = (mask ^ (1<<4));
             }
 
-            string currState = "";
-
-            for(int j = 0;j<5;j++){
-                currState += to_string(state[j]);
-            }
-
-            if(mp.find(currState)!=mp.end()){
-                ans = max(ans, i - mp[currState]);
+            
+            if(mp.find(mask)!=mp.end()){
+                ans = max(ans, i - mp[mask]);
             }
             else{
-                mp[currState] = i;
+                mp[mask] = i;
             }
 
         }
