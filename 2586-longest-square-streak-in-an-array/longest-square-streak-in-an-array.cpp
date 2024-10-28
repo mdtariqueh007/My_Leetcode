@@ -2,26 +2,29 @@ class Solution {
 public:
     int longestSquareStreak(vector<int>& nums) {
 
-        sort(nums.begin(),nums.end());
 
-        unordered_map<int,int> mp;
-
-        int n = nums.size();
+        unordered_set<int> st(nums.begin(),nums.end());
 
         int maxStreak = 0;
 
         for(int num : nums){
-            int sq = (int)sqrt(num);
+            int currStreak = 0;
+            long long currNum = num;
 
-            if(sq*sq==num && mp.find(sq)!=mp.end()){
-                mp[num] = mp[sq] + 1;
-            }
-            else{
-                mp[num] = 1;
+            while(st.find(currNum)!=st.end()){
+                currStreak++;
+
+                if(currNum*currNum>1e5){
+                    break;
+                }
+
+                currNum *= currNum;
             }
 
-            maxStreak = max(maxStreak,mp[num]);
+            maxStreak = max(maxStreak,currStreak);
+
         }
+
 
         if(maxStreak<2){
             return -1;
