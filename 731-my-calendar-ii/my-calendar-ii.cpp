@@ -1,37 +1,23 @@
 class MyCalendarTwo {
+    private:
+    map<int,int> line;
 public:
-    // Store the number of bookings at each point.
-    map<int, int> bookingCount;
-    // The maximum number of overlapped bookings allowed.
-    int maxOverlappedBooking;
+    MyCalendarTwo() {
+        line.clear();
+    }
+    
+    bool book(int startTime, int endTime) {
+        line[startTime]++;
+        line[endTime]--;
 
-    MyCalendarTwo() { maxOverlappedBooking = 2; }
+        int cnt = 0;
 
-    bool book(int start, int end) {
-        // Increase and decrease the booking count at the start and end
-        // respectively.
-        bookingCount[start]++;
-        bookingCount[end]--;
+        for(auto it: line){
+            cnt += it.second;
 
-        int overlappedBooking = 0;
-        // Find the prefix sum.
-        for (pair<int, int> bookings : bookingCount) {
-            overlappedBooking += bookings.second;
-
-            // If the number of bookings is more than 2, return false.
-            // Also roll back the counts for this booking as we won't add it.
-            if (overlappedBooking > maxOverlappedBooking) {
-                bookingCount[start]--;
-                bookingCount[end]++;
-
-                // Remove the entries from the map to avoid unnecessary
-                // iteration.
-                if (bookingCount[start] == 0) {
-                    bookingCount.erase(start);
-                }
-                if (bookingCount[end] == 0) {
-                    bookingCount.erase(end);
-                }
+            if(cnt==3){
+                line[startTime]--;
+                line[endTime]++;
 
                 return false;
             }
@@ -40,3 +26,9 @@ public:
         return true;
     }
 };
+
+/**
+ * Your MyCalendarTwo object will be instantiated and called as such:
+ * MyCalendarTwo* obj = new MyCalendarTwo();
+ * bool param_1 = obj->book(startTime,endTime);
+ */
