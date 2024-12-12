@@ -26,6 +26,8 @@ public:
         int low = matrix[0][0];
         int high = matrix[n-1][n-1];
 
+        int ans = high;
+
         
         while(low<=high){
             int mid = low + (high - low)/2;
@@ -37,11 +39,12 @@ public:
                 low = mid + 1;
             }
             else{
+                ans = mid;
                 high = mid - 1;
             }
         }
 
-        return low;
+        return ans;
 
     }
 };
