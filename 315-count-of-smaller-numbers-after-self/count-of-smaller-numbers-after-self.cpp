@@ -3,7 +3,7 @@
 
 using namespace __gnu_pbds;
 
-template<class T> using oset = tree<T, null_type, less<T>, rb_tree_tag, tree_order_statistics_node_update>;
+template<class T> using oset = tree<T, null_type, less_equal<T>, rb_tree_tag, tree_order_statistics_node_update>;
 
 
 
@@ -15,11 +15,11 @@ public:
 
         vector<int> ans(n,0);
 
-        oset<pair<int,int>> st;
+        oset<int> st;
 
         for(int i = n - 1;i>=0;i--){
-            ans[i] = st.order_of_key({nums[i],i});
-            st.insert({nums[i],i});
+            ans[i] = st.order_of_key(nums[i]);
+            st.insert(nums[i]);
         }
 
         return ans;
