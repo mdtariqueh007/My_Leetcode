@@ -4,16 +4,14 @@ public:
 
         int n = values.size();
 
-        priority_queue<int> pq;
+        int maxValueTillNow = values[0] + 0;
 
         int ans = 0;
 
-        for(int i = 0;i<n;i++){
-            if(!pq.empty()){
-                ans = max(ans, pq.top() + values[i] - i);
-            }
+        for(int i = 1;i<n;i++){
+            ans = max(ans, maxValueTillNow + values[i] - i);
 
-            pq.push(values[i] + i);
+            maxValueTillNow = max(maxValueTillNow, values[i] + i);
         }
 
         return ans;
