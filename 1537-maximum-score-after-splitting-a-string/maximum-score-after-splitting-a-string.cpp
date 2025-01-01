@@ -5,28 +5,26 @@ public:
         int n = s.length();
 
         int ones = 0;
-
-        for(char c: s){
-            if(c=='1'){
-                ones++;
-            }
-        }
-
-        int ans = 0;
         int zeros = 0;
 
+        int maxi = -1e9;
+        
         for(int i = 0;i<n-1;i++){
             if(s[i]=='1'){
-                ones--;
+                ones++;
             }
             else{
                 zeros++;
             }
 
-            ans = max(ans, zeros + ones);
+            maxi = max(maxi, zeros - ones);
         }
 
-        return ans;
+        if(s.back()=='1'){
+            ones++;
+        }
+
+        return ones + maxi;
         
     }
 };
