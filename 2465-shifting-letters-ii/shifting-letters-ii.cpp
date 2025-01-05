@@ -1,33 +1,59 @@
+class BIT{
+    private:
+    vector<int> bit;
+    int n;
+    public:
+    BIT(int n){
+        this->n = n;
+        bit.resize(n+1,0);
+    }
+    void update(int ind, int val){
+        ind++;
+
+        while(ind<=n){
+            bit[ind] += val;
+            ind += (ind & -ind);
+        }
+    }
+
+    int query(int ind){
+        ind++;
+
+        int sum = 0;
+
+        while(ind> 0){
+            sum += bit[ind];
+            ind -= (ind & -ind);
+        }
+
+        return sum;
+    }
+};
+
 class Solution {
 public:
     string shiftingLetters(string s, vector<vector<int>>& shifts) {
-
         int n = s.length();
 
-        vector<int> line(n+1, 0);
+        BIT bit(n);
 
         for(auto it: shifts){
-            int start = it[0];
-            int end = it[1];
+            int left = it[0];
+            int right = it[1];
             int dir = it[2];
 
             if(dir==1){
-                line[start]++;
-                line[end+1]--;
+                bit.update(left, 1);
+                bit.update(right + 1, - 1);
             }
             else{
-                line[start]--;
-                line[end+1]++;
+                bit.update(left, -1);
+                bit.update(right+1, 1);
             }
-
-        }
-
-        for(int i = 1;i<n;i++){
-            line[i] += line[i-1];
         }
 
         for(int i = 0;i<n;i++){
-            int increment = (s[i] - 'a' + line[i])%26;
+            int increment = (s[i] - 'a' + bit.query(i))%26;
 
             increment = (increment + 26)%26;
 
@@ -35,6 +61,5 @@ public:
         }
 
         return s;
-        
     }
 };
