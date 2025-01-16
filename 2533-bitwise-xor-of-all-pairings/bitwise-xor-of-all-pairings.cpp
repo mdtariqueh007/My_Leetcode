@@ -9,28 +9,20 @@ public:
             return 0;
         }
 
-        int ans = 0;
+        int xor1 = 0, xor2 = 0;
 
-        if(n%2==0){
-            for(int x: nums1){
-                ans ^= x;
-            }
-        }
-        else if(m%2==0){
+        if(n%2!=0){
             for(int x: nums2){
-                ans ^= x;
+                xor1 ^= x;
             }
         }
-        else{
+        if(m%2!=0){
             for(int x: nums1){
-                ans ^= x;
-            }
-            for(int x: nums2){
-                ans ^= x;
+                xor2 ^= x;
             }
         }
-
-        return ans;
+        
+        return xor1^xor2;
 
     }
 };
