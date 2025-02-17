@@ -1,34 +1,19 @@
 class Solution {
     private:
-    void generateSubsets(vector<int>&nums, int ind, vector<int> subset, vector<vector<int>>&subsets){
+    int solve(vector<int>&nums, int ind, int currXor){
         if(ind==nums.size()){
-            subsets.push_back(subset);
-            return;
+            return currXor;
         }
 
-        subset.push_back(nums[ind]);
-        generateSubsets(nums,ind+1, subset, subsets);
-        subset.pop_back();
-        generateSubsets(nums,ind+1, subset, subsets);
+        int withElement = solve(nums,ind+1, currXor^nums[ind]);
+        int withoutElement = solve(nums,ind+1, currXor);
+
+        return withElement + withoutElement;
     }
 public:
     int subsetXORSum(vector<int>& nums) {
 
-        vector<vector<int>> subsets;
-
-        generateSubsets(nums, 0, {}, subsets);
-
-        int ans = 0;
-
-        for(auto& subset: subsets){
-            int xr = 0;
-            for(int num: subset){
-                xr ^= num;
-            }
-            ans += xr;
-        }
-
-        return ans;
+        return solve(nums,0,0);
         
     }
 };
