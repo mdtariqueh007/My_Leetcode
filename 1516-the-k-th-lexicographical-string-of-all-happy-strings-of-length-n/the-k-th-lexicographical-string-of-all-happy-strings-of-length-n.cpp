@@ -1,46 +1,44 @@
 class Solution {
     private:
-    bool isHappy(string&s){
-        int n = s.length();
-
-        if(n==1){
-            return true;
-        }
-
-        for(int i = 0;i<n-1;i++){
-            if(s[i]==s[i+1]){
-                return false;
-            }
-        }
-
-        return true;
-    }
-    void solve(string curr, int n, vector<string>& happyStrings){
+    void solve(string curr, char prev, int n, vector<string>&happyStrings){
         if(curr.length()==n){
-            if(isHappy(curr)){
-                happyStrings.push_back(curr);
-            }
+            happyStrings.push_back(curr);
             return;
         }
 
-        solve(curr+"a", n, happyStrings);
-        solve(curr+"b", n, happyStrings);
-        solve(curr+"c", n, happyStrings);
+        if(prev=='a'){
+            solve(curr+"b", 'b', n, happyStrings);
+            solve(curr+"c", 'c', n, happyStrings);
+        }
+        else if(prev=='b'){
+            solve(curr+"a", 'a', n, happyStrings);
+            solve(curr+"c", 'c', n, happyStrings);
+        }
+        else{
+            solve(curr+"a", 'a', n, happyStrings);
+            solve(curr+"b", 'b', n, happyStrings);
+        }
     }
 public:
     string getHappyString(int n, int k) {
 
         vector<string> happyStrings;
 
-        solve("", n, happyStrings);
-
-        sort(happyStrings.begin(), happyStrings.end());
+        solve("a", 'a', n, happyStrings);
+        solve("b", 'b', n, happyStrings);
+        solve("c", 'c', n, happyStrings);
 
         if(k>happyStrings.size()){
             return "";
         }
 
+        sort(happyStrings.begin(), happyStrings.end());
+
+        
+
         return happyStrings[k-1];
+
+
         
     }
 };
