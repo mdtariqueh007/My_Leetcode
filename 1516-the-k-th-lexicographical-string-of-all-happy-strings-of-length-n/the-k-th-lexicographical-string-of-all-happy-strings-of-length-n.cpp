@@ -31,11 +31,7 @@ public:
         if(k>happyStrings.size()){
             return "";
         }
-
-        // sort(happyStrings.begin(), happyStrings.end());
-
         
-
         return happyStrings[k-1];
 
 
