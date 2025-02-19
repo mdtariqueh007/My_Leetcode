@@ -6,17 +6,12 @@ class Solution {
             return;
         }
 
-        if(prev=='a'){
-            solve(curr+"b", 'b', n, happyStrings);
-            solve(curr+"c", 'c', n, happyStrings);
-        }
-        else if(prev=='b'){
-            solve(curr+"a", 'a', n, happyStrings);
-            solve(curr+"c", 'c', n, happyStrings);
-        }
-        else{
-            solve(curr+"a", 'a', n, happyStrings);
-            solve(curr+"b", 'b', n, happyStrings);
+        for(char c = 'a';c<='c';c++){
+            if(c==prev){
+                continue;
+            }
+
+            solve(curr+c,c,n, happyStrings);
         }
     }
 public:
