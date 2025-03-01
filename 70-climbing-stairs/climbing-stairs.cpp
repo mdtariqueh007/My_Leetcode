@@ -19,33 +19,69 @@ class Solution {
 
         return memo[curr] = oneStep + twoSteps;
     }
+    #define ll long long
+    ll fibo(int n)
+{
+    if (n == 0)
+        return 0;
+    if (n == 1)
+        return 1;
+    n--;
+    int base[2][2] = {{1, 1}, {1, 0}};
+    ll ans[2][2] = {{1, 0}, {0, 1}};
+    while (n)
+    {
+        if (n & 1)
+        {
+            ll temp[2][2];
+            for (int i = 0; i < 2; i++)
+            {
+                for (int j = 0; j < 2; j++)
+                {
+                    temp[i][j] = 0;
+                    for (int k = 0; k < 2; k++)
+                    {
+                        temp[i][j] += ans[i][k] * base[k][j];
+                    }
+                }
+            }
+
+            ans[0][0] = temp[0][0];
+            ans[0][1] = temp[0][1];
+            ans[1][0] = temp[1][0];
+            ans[1][1] = temp[1][1];
+
+            n = n - 1;
+        }
+        else
+        {
+            ll temp[2][2];
+            for (int i = 0; i < 2; i++)
+            {
+                for (int j = 0; j < 2; j++)
+                {
+                    temp[i][j] = 0;
+                    for (int k = 0; k < 2; k++)
+                    {
+                        temp[i][j] += base[i][k] * base[k][j];
+                    }
+                }
+            }
+
+            base[0][0] = temp[0][0];
+            base[0][1] = temp[0][1];
+            base[1][0] = temp[1][0];
+            base[1][1] = temp[1][1];
+
+            n = n / 2;
+        }
+    }
+
+    return ans[0][0];
+}
 public:
     int climbStairs(int n) {
         // memset(memo, -1 , sizeof(memo));
-        // return solve(0, n);
-
-
-        if(n==1 || n==2){
-            return n;
-        }
-
-        // vector<int> dp(n+1, 0);
-
-        // dp[1] = 1
-        // dp[2] = 2;
-
-        int prev2 = 1;
-        int prev1 = 2;
-
-        for(int i = 3;i<=n;i++){
-            // dp[i] = dp[i-1] + dp[i-2];
-            int curr = prev1 + prev2;
-
-            prev2 = prev1;
-            prev1 = curr;
-
-        }
-
-        return prev1;
+        return fibo(n+1);
     }
 };
