@@ -1,24 +1,5 @@
 class Solution {
-    private:
-    int dp[10001];
-    int solve(int num, unordered_map<int,int>&mp){
-        if(num<=0){
-            return 0;
-        }
-
-        if(num==1){
-            return mp[num];
-        }
-
-        if(dp[num]!=-1){
-            return dp[num];
-        }
-
-        int take = num * mp[num] + solve(num-2, mp);
-        int notTake = solve(num - 1, mp);
-
-        return dp[num] = max(take, notTake);
-    }
+   
 public:
     int deleteAndEarn(vector<int>& nums) {
 
@@ -33,9 +14,26 @@ public:
             maxNum = max(maxNum, x);
         }
 
-        memset(dp, -1, sizeof(dp));
+        // memset(dp, -1, sizeof(dp));
 
-        return solve(maxNum, mp);
+        // return solve(maxNum, mp);
+
+        vector<int> dp(maxNum+1, 0);
+
+        dp[0] = 0;
+        dp[1] = mp[1];
+
+        
+
+        for(int i = 2;i<=maxNum;i++){
+            int take = i * mp[i] + dp[i-2];
+            int notTake = dp[i-1];
+
+            dp[i] = max(take, notTake); 
+
+        }
+
+        return dp[maxNum];
 
 
 
