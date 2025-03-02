@@ -1,25 +1,5 @@
 class Solution {
-    private:
-    int dp[20001];
-    int solve(int ind, vector<int>&nums, unordered_map<int, int>&mp){
-
-        if(ind>=nums.size()){
-            return 0;
-        }
-
-        if(dp[ind]!=-1){
-            return dp[ind];
-        }
-        
-        int take = nums[ind] * mp[nums[ind]];
-        int newValidIndex = ind + mp[nums[ind]] + mp[nums[ind]+1];
-        take += solve(newValidIndex, nums, mp);
-
-        int notTake = solve(ind+mp[nums[ind]], nums, mp);
-
-        return dp[ind] = max(take, notTake);
-
-    }
+    
 public:
     int deleteAndEarn(vector<int>& nums) {
 
@@ -34,9 +14,25 @@ public:
 
         sort(nums.begin(), nums.end());
 
-        memset(dp, -1, sizeof(dp));
+        vector<int> dp(n+1, 0);
 
-        return solve(0, nums, mp);
+        for(int ind = n - 1;ind>=0;ind--){
+            int take = nums[ind] * mp[nums[ind]];
+            int newValidIndex = ind + mp[nums[ind]] + mp[nums[ind]+1];
+
+            if(newValidIndex<=n){
+                take += dp[newValidIndex];
+            } 
+
+            int notTake = 0;
+            if(ind+mp[nums[ind]]<=n){
+                notTake += dp[ind+mp[nums[ind]]];
+            }
+
+            dp[ind] = max(take, notTake);
+        }
+
+        return dp[0];
         
     }
 };
