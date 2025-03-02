@@ -1,29 +1,37 @@
 class Solution {
-    private:
-    bool isPal(int i, int j, string&s){
-        while(i<j){
-            if(s[i]!=s[j]){
-                return false;
-            }
-
-            i++;
-            j--;
-        }
-
-        return true;
-    }
 public:
     string longestPalindrome(string s) {
 
-        for(int len = s.size();len>0;len--){
-            for(int start = 0;start<=s.size()-len;start++){
-                if(isPal(start, start+len-1, s)){
-                    return s.substr(start, len);
+        int n = s.size();
+
+       
+
+        vector<vector<bool>> dp(n, vector<bool>(n, false));
+
+        vector<int> ans = {0, 0};
+
+        for(int i = 0;i<n;i++){
+            dp[i][i] = true;
+        }
+        for(int i = 0;i<n-1;i++){
+            if(s[i]==s[i+1]){
+                dp[i][i+1] = true;
+                ans = {i, i+1};
+            }
+        }
+
+        for(int diff = 2;diff<n;diff++){
+            for(int i = 0;i<n-diff;i++){
+                int j = i + diff;
+
+                if(s[i]==s[j] && dp[i+1][j-1]){
+                    dp[i][j] = true;
+                    ans = {i, j};
                 }
             }
         }
 
-        return "";
+        return s.substr(ans[0], ans[1] - ans[0] + 1);
         
     }
 };
