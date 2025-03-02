@@ -1,37 +1,36 @@
 class Solution {
+    private:
+    string expand(int i, int j, string s){
+        int left = i;
+        int right = j;
+
+        while(left>=0 && right<s.size() && s[left]==s[right]){
+            left--;
+            right++;
+        }
+
+        return s.substr(left+1, right - left - 1);
+    }
 public:
     string longestPalindrome(string s) {
 
-        int n = s.size();
+        string ans = "";
 
-       
+        for(int i = 0;i<s.size();i++){
+            string oddLenString = expand(i, i, s);
 
-        vector<vector<bool>> dp(n, vector<bool>(n, false));
+            if(oddLenString.size()>ans.size()){
+                ans = oddLenString;
+            }
 
-        vector<int> ans = {0, 0};
+            string evenLenString = expand(i, i + 1, s);
 
-        for(int i = 0;i<n;i++){
-            dp[i][i] = true;
-        }
-        for(int i = 0;i<n-1;i++){
-            if(s[i]==s[i+1]){
-                dp[i][i+1] = true;
-                ans = {i, i+1};
+            if(evenLenString.size() > ans.size()){
+                ans = evenLenString;
             }
         }
 
-        for(int diff = 2;diff<n;diff++){
-            for(int i = 0;i<n-diff;i++){
-                int j = i + diff;
-
-                if(s[i]==s[j] && dp[i+1][j-1]){
-                    dp[i][j] = true;
-                    ans = {i, j};
-                }
-            }
-        }
-
-        return s.substr(ans[0], ans[1] - ans[0] + 1);
+        return ans;
         
     }
 };
