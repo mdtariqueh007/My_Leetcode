@@ -2,11 +2,10 @@ class Solution {
     private:
     int dp[1001][1001];
     int solve(int i, int j, string& s, string& t){
+        if(j==t.length()){
+            return 1;
+        }
         if(i==s.length()){
-            if(j==t.length()){
-                return 1;
-            }
-
             return 0;
         }
 
