@@ -1,53 +1,26 @@
 class Solution {
-    // private:
-    // int dp[5001][2];
-    // int solve(int day, bool buy, vector<int>&prices){
-    //     if(day>=prices.size()){
-    //         return 0;
-    //     }
-
-    //     if(dp[day][buy]!=-1){
-    //         return dp[day][buy];
-    //     }
-
-    //     int noTransaction = solve(day+1, buy, prices);
-
-    //     if(buy){
-    //         int buyStock = -prices[day] + solve(day+1, false, prices);
-
-    //         return dp[day][buy] = max(noTransaction, buyStock);
-    //     }
-    //     else{
-    //         int sellStock = prices[day] + solve(day+2, true, prices);
-
-    //         return dp[day][buy] = max(noTransaction, sellStock);
-    //     }
-    // }
 public:
     int maxProfit(vector<int>& prices) {
 
-        // memset(dp, -1, sizeof(dp));
-
-        // return solve(0, true, prices);
-
         int n = prices.size();
 
-        // vector<vector<int>> dp(n+2, vector<int>(2,0));
+        vector<int> reset(n, 0), held(n, 0), sold(n, 0);
 
-        vector<vector<int>> dp(3, vector<int>(2,0));
+        reset[0] = 0;
+        held[0] = -prices[0];
+        sold[0] = -1e9;
 
-        for(int i = n - 1;i>=0;i--){
-            for(int buy = 0;buy<=1;buy++){
-                if(buy){
-                    dp[i%3][buy] = max(dp[(i+1)%3][buy], -prices[i]+dp[(i+1)%3][1-buy]);
-                }
-                else{
-                    dp[i%3][buy] = max(dp[(i+1)%3][buy], prices[i]+dp[(i+2)%3][1-buy]);
-                }
-            }
+        for(int i = 1;i<n;i++){
+            sold[i] = held[i-1] + prices[i];
+            held[i] = max(held[i-1], reset[i-1] - prices[i]);
+            reset[i] = max(reset[i-1], sold[i-1]);
         }
 
-        return dp[0][1];
+        return max(sold.back(), reset.back());
+
+
+
+
         
     }
 };
