@@ -11,11 +11,16 @@
  */
 class Solution {
     private:
+    map<pair<int,int>, vector<TreeNode*>> dp;
     vector<TreeNode*> solve(int start, int end){
         vector<TreeNode*> ans;
         if(start>end){
             ans.push_back(nullptr);
             return ans;
+        }
+
+        if(dp.find({start, end})!=dp.end()){
+            dp[{start, end}];
         }
 
         for(int i = start;i<=end;i++){
@@ -30,7 +35,7 @@ class Solution {
             }
         }
 
-        return ans;
+        return dp[{start,end}] = ans;
     }
 public:
     vector<TreeNode*> generateTrees(int n) {
