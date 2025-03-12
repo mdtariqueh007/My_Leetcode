@@ -1,53 +1,60 @@
 class Solution {
     private:
-    vector<int> helper(string&expression){
-        // if(ind>=expression.size()){
-        //     return {};
-        // }
-        if(expression.empty()){
-            return {};
+    vector<int> solve(string expression){
+        vector<int> res;
+
+        if(expression.size()==0){
+            return res;
         }
 
-        
+        if(expression.size()==1){
+            res.push_back(stoi(expression));
+            return res;
+        }
 
-        vector<int> result;
+        if(expression.size()==2 && isdigit(expression[0])){
+            res.push_back(stoi(expression));
 
-        bool isNumber = true;
+            return res;
+        }
 
-        for(int i = 0;i<=expression.size();i++){
-            if(expression[i]=='+' || expression[i]=='-' || expression[i]=='*'){
-                isNumber = false;
-                string s1 = expression.substr(0,i);
-                string s2 = expression.substr(i+1);
-                vector<int> left = helper(s1);
-                vector<int> right = helper(s2);
+        for(int i = 0;i<expression.size();i++){
+            char curr = expression[i];
 
-                for(int x:  left){
-                    for(int y: right){
-                        if(expression[i]=='+'){
-                            result.push_back(x+y);
-                        }
-                        else if(expression[i]=='-'){
-                            result.push_back(x-y);
-                        }
-                        else{
-                            result.push_back(x*y);
-                        }
+            if(isdigit(curr)){
+                continue;
+            }
+
+            vector<int> leftRes = solve(expression.substr(0,i));
+            vector<int> rightRes = solve(expression.substr(i+1));
+
+            for(int lVal: leftRes){
+                for(int rVal: rightRes){
+                    int ans = 0;
+
+                    if(curr=='+'){
+                        ans = lVal + rVal;
                     }
+                    else if(curr=='-'){
+                        ans = lVal - rVal;
+                    }
+                    else if(curr=='*'){
+                        ans = lVal * rVal;
+                    }
+
+                    res.push_back(ans);
                 }
             }
         }
 
-        if(isNumber){
-            result.push_back(stoi(expression));
-        }
-
-        return result;
+        return res;
     }
 public:
     vector<int> diffWaysToCompute(string expression) {
 
-        return helper(expression);
+        return solve(expression);
+
+        
         
     }
 };
