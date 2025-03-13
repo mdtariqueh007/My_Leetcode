@@ -1,22 +1,8 @@
-class Solution {
-    private:
-     bool isZeroArray(vector<int>&nums){
-        for(int i = 0;i<nums.size();i++){
-            if(nums[i]!=0){
-                return false;
-            }
-        }
-
-        return true;
-    }
+class Solution { 
 public:
     bool isZeroArray(vector<int>& nums, vector<vector<int>>& queries) {
 
         int n = nums.size();
-
-        if(isZeroArray(nums)){
-            return true;
-        }
 
         vector<int> line(n+1, 0);
 
@@ -26,8 +12,8 @@ public:
             int r = q[1];
             int val = 1;
 
-            line[l] -= val;
-            line[r+1] += val;
+            line[l] += val;
+            line[r+1] -= val;
             
         }
 
@@ -36,14 +22,12 @@ public:
         }
 
         for(int i = 0;i<n;i++){
-            nums[i] = max(nums[i] + line[i], 0);
+            if(line[i]<nums[i]){
+                return false;
+            }
         }
 
-        if(isZeroArray(nums)){
-                return true;
-        }
-
-        return false;;
+        return true;
         
     }
 };
