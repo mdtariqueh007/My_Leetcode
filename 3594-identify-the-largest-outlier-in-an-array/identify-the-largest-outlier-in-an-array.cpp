@@ -16,15 +16,10 @@ public:
 
         for(int i = 0;i<n;i++){
             int x = nums[i];
-            int ele2 = sum - x;
-            if(ele2&1){
-                continue;
-            }
+            int outlier = sum - 2 * x;
 
-            ele2 /= 2;
-
-            if(mp.find(ele2)!=mp.end() && mp[ele2]!=i){
-                ans = max(ans, x);
+            if(mp.find(outlier)!=mp.end() && mp[outlier]!=i){
+                ans = max(ans, outlier);
             }
         }
 
