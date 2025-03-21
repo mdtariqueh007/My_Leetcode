@@ -2,38 +2,35 @@ class Solution {
 public:
     vector<string> findAllRecipes(vector<string>& recipes, vector<vector<string>>& ingredients, vector<string>& supplies) {
         
-        unordered_set<string> has(supplies.begin(), supplies.end());
+        unordered_map<string, int> indegree;
+        unordered_map<string, vector<string>> adjList;
 
-        unordered_set<string> ansSet;
+        for(int i = 0;i<ingredients.size();i++){
+            string recipe = recipes[i];
+            for(auto it: ingredients[i]){
+                adjList[it].push_back(recipe);
+                indegree[recipe]++;
+            }
+        }
 
-        bool progress = true;
+        queue<string> q(supplies.begin(), supplies.end());
 
-        while(progress){
-            progress = false;
-            for(int i = 0;i<recipes.size();i++){
-                if(ansSet.find(recipes[i])!=ansSet.end()){
-                    continue;
-                }
-                bool hasAll = true;
-                for(int j = 0;j<ingredients[i].size();j++){
-                    if(has.find(ingredients[i][j])==has.end()){
-                        hasAll = false;
-                        break;
-                    }
-                }
+        vector<string> ans;
 
-                if(hasAll){
-                    has.insert(recipes[i]);
-                    ansSet.insert(recipes[i]);
-                    progress = true;
+        while(!q.empty()){
+            string curr = q.front();
+            q.pop();
+
+            for(auto it: adjList[curr]){
+                indegree[it]--;
+                if(indegree[it]==0){
+                    q.push(it);
+                    ans.push_back(it);
                 }
             }
         }
 
-        
-        return vector<string>(ansSet.begin(), ansSet.end());
-
-
+        return ans;
 
     }
 };
