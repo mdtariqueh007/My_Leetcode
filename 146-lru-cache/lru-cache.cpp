@@ -3,7 +3,12 @@ class LRUCache {
     int cap;
     list<pair<int,int>> dll;
     unordered_map<int, list<pair<int,int>>::iterator> cache;
-
+    void makeMostRecentlyUsed(int key, int value){
+        
+        dll.erase(cache[key]);
+        dll.push_front({key, value});
+        cache[key] = dll.begin();
+    }
 public:
     LRUCache(int capacity) {
         cap = capacity;
@@ -15,22 +20,19 @@ public:
             return -1;
         }
 
-        auto it = cache[key];
-        pair<int,int> item = *it;
-        dll.erase(it);
-        dll.push_front(item);
-        cache[key] = dll.begin();
-        return item.second;
+        pair<int,int> it = *(cache[key]);
+
+        
+        makeMostRecentlyUsed(key, it.second);
+        
+        return it.second;
         
     }
     
     void put(int key, int value) {
 
         if(cache.find(key)!=cache.end()){
-            auto it = cache[key];
-            dll.erase(it);
-            dll.push_front({key, value});
-            cache[key] = dll.begin();
+            makeMostRecentlyUsed(key, value);
             return;
         }
 
