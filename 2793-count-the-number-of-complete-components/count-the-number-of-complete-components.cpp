@@ -69,15 +69,8 @@ public:
             if(ds.find(i)==i){
                 int nodeCount = ds.getNodes(i);
                 int edgesCount = ds.getEdges(i);
-
-                if(i==1){
-                    cout<<edgesCount<<" "<<nodeCount<<"\n";
-                }
-
+               
                 if(edgesCount == (nodeCount * (nodeCount - 1))/2){
-                    if(i==1){
-                        cout<<"YES\n";
-                    }
                     ans++;
                 }
             }
