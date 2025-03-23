@@ -18,6 +18,11 @@ public:
             long long t = pq.top().first;
             long long node = pq.top().second;
             pq.pop();
+
+            if(t>time[node]){
+                continue;
+            }
+
             for(auto it : adj[node]){
                 long long adjNode = it.first;
                 long long edW = it.second;
