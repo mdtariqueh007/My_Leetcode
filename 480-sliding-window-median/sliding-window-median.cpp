@@ -7,7 +7,7 @@ public:
         multiset<int> low, high;
 
         int sz1 = k/2;
-        int sz2 = k&1?k/2+1:k/2;
+        int sz2 = k - sz1;
 
         vector<double> ans;
 
