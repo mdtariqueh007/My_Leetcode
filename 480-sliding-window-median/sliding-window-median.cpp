@@ -35,13 +35,13 @@ public:
                 }
             }
 
-             while(low.size()>sz1){
+            if(low.size()>sz1){
                 int x = *low.rbegin();
                 low.erase(prev(low.end()));
                 high.insert(x);
             }
 
-            while(high.size()>sz2){
+            if(high.size()>sz2){
                 int x = *high.begin();
                 high.erase(high.begin());
                 low.insert(x);
