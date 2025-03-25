@@ -11,7 +11,7 @@ public:
         for(int i = n - 2;i>=0;i--){
             int maxPos = min(i + nums[i], n - 1);
 
-            for(int j = maxPos;j>=i+1;j--){
+            for(int j = i+1;j<=maxPos;j++){
                 if(dp[j]==1){
                     dp[i] = 1;
                     break;
