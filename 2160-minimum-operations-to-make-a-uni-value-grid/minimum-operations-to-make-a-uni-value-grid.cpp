@@ -12,7 +12,7 @@ public:
 
         int n = nums.size();
 
-        sort(nums.begin(), nums.end());
+        nth_element(nums.begin(), nums.begin()+n/2, nums.end());
 
         int commonNum = nums[n/2];
 
