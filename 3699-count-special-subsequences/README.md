@@ -1,13 +1,11 @@
 <h2><a href="https://leetcode.com/problems/count-special-subsequences">Count Special Subsequences</a></h2> <img src='https://img.shields.io/badge/Difficulty-Medium-orange' alt='Difficulty: Medium' /><hr><p>You are given an array <code>nums</code> consisting of positive integers.</p>
 
-<p>A <strong>special subsequence</strong> is defined as a subsequence of length 4, represented by indices <code>(p, q, r, s)</code>, where <code>p &lt; q &lt; r &lt; s</code>. This subsequence <strong>must</strong> satisfy the following conditions:</p>
+<p>A <strong>special subsequence</strong> is defined as a <span data-keyword="subsequence-array">subsequence</span> of length 4, represented by indices <code>(p, q, r, s)</code>, where <code>p &lt; q &lt; r &lt; s</code>. This subsequence <strong>must</strong> satisfy the following conditions:</p>
 
 <ul>
 	<li><code>nums[p] * nums[r] == nums[q] * nums[s]</code></li>
 	<li>There must be <em>at least</em> <strong>one</strong> element between each pair of indices. In other words, <code>q - p &gt; 1</code>, <code>r - q &gt; 1</code> and <code>s - r &gt; 1</code>.</li>
 </ul>
-
-<p>A subsequence is a sequence derived from the array by deleting zero or more elements without changing the order of the remaining elements.</p>
 
 <p>Return the <em>number</em> of different <strong>special</strong> <strong>subsequences</strong> in <code>nums</code>.</p>
 
