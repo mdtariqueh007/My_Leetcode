@@ -2,13 +2,10 @@ class Solution {
 public:
     vector<int> partitionLabels(string s) {
 
-        vector<pair<int,int>> pos(26, {-1, -1});
+        vector<int> pos(26, -1);
 
         for(int i = 0;i<s.size();i++){
-            if(pos[s[i]-'a'].first==-1){
-                pos[s[i]-'a'].first = i;
-            }
-            pos[s[i]-'a'].second = i;
+            pos[s[i]-'a'] = i;
         }
 
 
@@ -26,7 +23,7 @@ public:
                 curr++;
             }
 
-            prevLast = max(prevLast, pos[s[i]-'a'].second);
+            prevLast = max(prevLast, pos[s[i]-'a']);
         }
 
         ans.push_back(curr);
