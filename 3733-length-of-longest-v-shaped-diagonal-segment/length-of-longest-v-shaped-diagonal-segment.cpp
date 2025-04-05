@@ -2,6 +2,7 @@ class Solution {
     private:
     int dy[4] = {1, 1, -1, -1};
     int dx[4] = {-1, 1, 1, -1};
+    int dp[501][501][4][3][2];
 
     int dfs(int i, int j, int k, int targetVal, bool turned, vector<vector<int>>&grid){
         int ni = i + dx[k];
@@ -11,16 +12,22 @@ class Solution {
             return 1;
         }
 
+        if(dp[i][j][k][targetVal][turned]!=-1){
+            return dp[i][j][k][targetVal][turned];
+        }
+
         int takeStraightPath = 1 + dfs(ni, nj, k, 2 - targetVal, turned, grid);
         int takeTurn = 0;
         if(!turned){
             takeTurn = 1 + dfs(ni, nj, (k+1)%4, 2 - targetVal, true, grid);
         }
 
-        return max(takeStraightPath, takeTurn);
+        return dp[i][j][k][targetVal][turned] = max(takeStraightPath, takeTurn);
     }
 public:
     int lenOfVDiagonal(vector<vector<int>>& grid) {
+
+        memset(dp, -1, sizeof(dp));
 
         int m = grid.size(), n = grid[0].size();
 
